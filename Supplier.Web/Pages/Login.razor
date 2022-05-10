@@ -1,0 +1,62 @@
+﻿@page "/"
+@using Microsoft.Extensions.Configuration
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject NavigationManager NavManager
+@inject ProtectedSessionStorage ProtectedSessionStore
+@inject IConfiguration Configuration
+@using Model.Request
+@using Newtonsoft.Json
+@using Supplier.API.Configuration
+@using System.Text
+<h3>Login</h3>
+
+<div class="card col-md-4">
+    <div class="row">
+        <div class="col-md-6">
+            User Name:
+        </div>
+        <div class="col-md-6">
+            <input type="text" @bind="login.UserName" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            Password:
+        </div>
+        <div class="col-md-6">
+            <input type="password" @bind="login.Password" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <button value="Login" @onclick="() => OnLoginClick()">Login</button>
+            <button value="Login" @onclick="onTest">test</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private LoginRequest login = new LoginRequest();
+
+    private void OnLoginClick()
+    {
+        var http = new HttpClient()
+            {
+                BaseAddress = new Uri(Configuration["AppSettings:APIURL"])
+            };
+
+        var json = JsonConvert.SerializeObject(login);
+        var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = http.PostAsync("api/auth/login", data).Result;
+        string result = response.Content.ReadAsStringAsync().Result;
+        ProtectedSessionStore.SetAsync("Token", result);
+
+        NavManager.NavigateTo("suppliers");
+
+    }
+    public void onTest()
+    {
+
+    }
+}

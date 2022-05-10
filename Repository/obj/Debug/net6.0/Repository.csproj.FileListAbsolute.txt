@@ -1,0 +1,17 @@
+D:\Omschrift\Projects\Learning\Architecture\Repository\bin\Debug\net6.0\Repository.deps.json
+D:\Omschrift\Projects\Learning\Architecture\Repository\bin\Debug\net6.0\Repository.dll
+D:\Omschrift\Projects\Learning\Architecture\Repository\bin\Debug\net6.0\Repository.pdb
+D:\Omschrift\Projects\Learning\Architecture\Repository\bin\Debug\net6.0\Entity.dll
+D:\Omschrift\Projects\Learning\Architecture\Repository\bin\Debug\net6.0\Model.dll
+D:\Omschrift\Projects\Learning\Architecture\Repository\bin\Debug\net6.0\Entity.pdb
+D:\Omschrift\Projects\Learning\Architecture\Repository\bin\Debug\net6.0\Model.pdb
+D:\Omschrift\Projects\Learning\Architecture\Repository\obj\Debug\net6.0\Repository.csproj.AssemblyReference.cache
+D:\Omschrift\Projects\Learning\Architecture\Repository\obj\Debug\net6.0\Repository.GeneratedMSBuildEditorConfig.editorconfig
+D:\Omschrift\Projects\Learning\Architecture\Repository\obj\Debug\net6.0\Repository.AssemblyInfoInputs.cache
+D:\Omschrift\Projects\Learning\Architecture\Repository\obj\Debug\net6.0\Repository.AssemblyInfo.cs
+D:\Omschrift\Projects\Learning\Architecture\Repository\obj\Debug\net6.0\Repository.csproj.CoreCompileInputs.cache
+D:\Omschrift\Projects\Learning\Architecture\Repository\obj\Debug\net6.0\Repository.csproj.CopyComplete
+D:\Omschrift\Projects\Learning\Architecture\Repository\obj\Debug\net6.0\Repository.dll
+D:\Omschrift\Projects\Learning\Architecture\Repository\obj\Debug\net6.0\refint\Repository.dll
+D:\Omschrift\Projects\Learning\Architecture\Repository\obj\Debug\net6.0\Repository.pdb
+D:\Omschrift\Projects\Learning\Architecture\Repository\obj\Debug\net6.0\ref\Repository.dll

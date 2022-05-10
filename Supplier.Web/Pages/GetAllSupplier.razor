@@ -1,0 +1,143 @@
+﻿@page "/suppliers"
+@using Microsoft.Extensions.Configuration
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject NavigationManager NavManager
+@inject ProtectedSessionStorage ProtectedSessionStore
+@inject IConfiguration Configuration
+@using Model.Request
+@using Model.Response
+@using Supplier.API.Configuration
+@using System.Text
+@using Microsoft.Extensions.Configuration.Json
+@using System.Text.Json
+@using Newtonsoft.Json
+<h3>All Suppliers</h3>
+<button @onclick="() => OnAdd()">Add New Supplier</button>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>
+                        Name
+                    </td>
+                    <td>
+                        Address Line 1
+                    </td>
+                    <td>
+                        Address Line 2
+                    </td>
+                    <td>
+                        City
+                    </td>
+                    <td>
+                        Postal Code
+                    </td>
+                    <td>
+                        State
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (list != null && list.Count() > 0)
+                {
+                    foreach (var supplier in list)
+                    {
+                        <tr>
+                            <td>
+                                @supplier.SupplierName
+                            </td>
+                            <td>
+                                @supplier.AddressLine1
+                            </td>
+                            <td>
+                                @supplier.AddressLine2
+                            </td>
+                            <td>
+                                @supplier.City
+                            </td>
+                            <td>
+                                @supplier.PostalCode
+                            </td>
+                            <td>
+                                @supplier.State
+                            </td>
+                            <td>
+                                <a class="bi bi-pencil" @onclick="() => OnEdit(supplier.SupplierId)">edit</a>
+                            </td>
+                            <td>
+                                <a class="bi bi-trash" @onclick="() => OnDelete(supplier.SupplierId)">delete</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@code {
+    private string token = "";
+    private List<SupplierResponse> list = new List<SupplierResponse>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            ProtectedBrowserStorageResult<string> tokenValue = await ProtectedSessionStore.GetAsync<string>("Token");
+            if (tokenValue.Success)
+            {
+                token = tokenValue.Value.ToString();
+            }
+
+            var http = new HttpClient()
+                {
+                    BaseAddress = new Uri(Configuration["AppSettings:APIURL"])
+                };
+
+            http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            var response = await http.GetAsync("api/supplier");
+            string result = await response.Content.ReadAsStringAsync();
+            JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions();
+            jsonSerializerOptions.PropertyNameCaseInsensitive = true;
+            list = System.Text.Json.JsonSerializer.Deserialize<List<SupplierResponse>>(result, jsonSerializerOptions);
+            StateHasChanged();
+        }
+    }
+    private void OnAdd()
+    {
+        NavManager.NavigateTo("supplier/0");
+    }
+    private void OnEdit(int id)
+    {
+        NavManager.NavigateTo($"supplier/{id}");
+    }
+    private async Task OnDelete(int id)
+    {
+        var http = new HttpClient()
+            {
+                BaseAddress = new Uri(Configuration["AppSettings:APIURL"])
+            };
+
+        http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+        var response = await http.DeleteAsync($"api/supplier/{id}");
+        string result = await response.Content.ReadAsStringAsync();
+        if (result == "success")
+        {
+            response = await http.GetAsync($"api/supplier");
+            result = await response.Content.ReadAsStringAsync();
+            JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions();
+            jsonSerializerOptions.PropertyNameCaseInsensitive = true;
+            list = System.Text.Json.JsonSerializer.Deserialize<List<SupplierResponse>>(result, jsonSerializerOptions);
+            StateHasChanged();
+        }
+    }
+}

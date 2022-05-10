@@ -1,0 +1,55 @@
+﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inherits LayoutComponentBase
+@inject ProtectedSessionStorage ProtectedSessionStore
+<PageTitle>Supplier.Web</PageTitle>
+
+<div class="page">
+    <div class="sidebar" hidden="@token">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+@code {
+    private bool token = false;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+
+        await SetToken();
+
+        StateHasChanged();  // update view
+
+
+    }
+
+    public async Task SetToken()
+    {
+        try
+        {
+
+            ProtectedBrowserStorageResult<string> tokenValue = await ProtectedSessionStore.GetAsync<string>("Token");
+            if (tokenValue.Success)
+            {
+                token = false;
+            }
+            else
+            {
+                token = true;
+            }
+
+        }
+        catch (Exception ex)
+        {
+            token = true;
+        }
+    }
+}
