@@ -1,11 +1,11 @@
 # OrderManagement
 
-Application is developed using 
-1. API Core (A separate API application for backend)
-  ==> This application uses SOLID principles with Disconnected Architecture using MediatR
-  ==> Application is using the Domain Driven patter
-  ==> Application uses CQRS
-2. Blazor Web App
+Application is developed using <br />
+1. API Core (A separate API application for backend)<br />
+  ==> This application uses SOLID principles with Disconnected Architecture using MediatR<br />
+  ==> Application is using the Domain Driven patter<br />
+  ==> Application uses CQRS<br />
+2. Blazor Web App<br />
   ==> Application is used to do UI operation with very basic applications
   ==> UI calls API for all the backend operation with Login (JWT Token) authentication
 3. Architecture Overview
